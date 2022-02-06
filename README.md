@@ -5,5 +5,4 @@
 
 > Deep neural network architecture for cardiac arrhythimas diagnosis.
 
-## Requirement
 
