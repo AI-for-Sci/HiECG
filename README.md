@@ -1,6 +1,3 @@
-# Interpretable Deep Learning for Automatic Diagnosis of 12-lead Electrocardiogram
-
-This repository contains code for *Interpretable Deep Learning for Automatic Diagnosis of 12-lead Electrocardiogram*. Electrocardiogram (ECG) is a widely used reliable, non-invasive approach for cardiovascular disease diagnosis. With the rapid growth of ECG examinations and the insufficiency of cardiologists, accurately automatic diagnosis of ECG signals has become a hot research topic. Deep learning methods have demonstrated promising results in predictive healthcare tasks. In this work, we developed a deep neural network for multi-label classification of cardiac arrhythmias in 12-lead ECG records. Experiments on a public 12-lead ECG dataset showed the effectiveness of our method. The proposed model achieved an average area under the receiver operating characteristic curve (AUC) of 0.970 and an average F1 score of 0.813. Using single-lead ECG as model input produced lower performance than using all 12 leads. The best-performing leads are lead I, aVR, and V5 among 12 leads. Finally, we employed the SHapley Additive exPlanations (SHAP) method to interpret the model's behavior at both patient-level and population-level.
 
 ## Model Architecture
 
