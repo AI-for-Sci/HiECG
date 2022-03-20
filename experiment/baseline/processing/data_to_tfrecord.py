@@ -77,7 +77,8 @@ def _bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 if __name__ == "__main__":
-    label_csv = "../../../data/baseline/labels.csv"
+    # Download data from https://www.dropbox.com/s/unicm8ulxt24vh8/CPSC.zip?dl=0
+    label_csv = "../../../data/CPSC/labels.csv"
     data_dir = "../../../data/CPSC/"
 
     # Labels

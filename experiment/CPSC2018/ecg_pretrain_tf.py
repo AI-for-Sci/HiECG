@@ -353,9 +353,9 @@ class ProjectionHeader(tf.keras.models.Model):
 def train_step(training_args, model, project_header, optimizer, input_values):
     with tf.GradientTape() as tape:
         z1 = model({"input_values": input_values}, output_hidden_states=True, training=True)
-        z1 = project_header(z1['hidden_states'])
+        z1 = project_header(z1['hidden_states'], training=True)
         z2 = model({"input_values": input_values}, output_hidden_states=True, training=True)
-        z2 = project_header(z2['hidden_states'])
+        z2 = project_header(z2['hidden_states'], training=True)
 
         loss = simcse_loss(z1, z2)
         loss = tf.nn.compute_average_loss(loss, global_batch_size=training_args.per_device_train_batch_size)

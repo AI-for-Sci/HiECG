@@ -273,7 +273,7 @@ def load_dataset(data_path, first_token_id=105, last_token_id=111, sequence_leng
             record_names.append(data_path)
 
     print("record_names: ", record_names)
-    
+
     dataset = tf.data.TFRecordDataset(record_names)
     dataset = dataset.map(map_func=_parse_record)
     dataset = dataset.map(map_func=_parse_mask)
@@ -353,9 +353,9 @@ class ProjectionHeader(tf.keras.models.Model):
 def train_step(training_args, model, project_header, optimizer, input_values):
     with tf.GradientTape() as tape:
         z1 = model({"input_values": input_values}, output_hidden_states=False, training=True)
-        z1 = project_header(z1['last_hidden_state'])
+        z1 = project_header(z1['hidden_states'])
         z2 = model({"input_values": input_values}, output_hidden_states=False, training=True)
-        z2 = project_header(z2['last_hidden_state'])
+        z2 = project_header(z2['hidden_states'])
 
         loss = simcse_loss(z1, z2)
         loss = tf.nn.compute_average_loss(loss, global_batch_size=training_args.per_device_train_batch_size)
@@ -492,7 +492,7 @@ def main():
     logger.info(f"  Instantaneous batch size per device = {training_args.per_device_train_batch_size}")
     logger.info(f"  Total train batch size = {training_args.per_device_train_batch_size * num_replicas}")
 
-    project_header = ProjectionHeader(pooling='last-avg')
+    project_header = ProjectionHeader(pooling='last-avg', hidden_size=256)
 
     train_loss = tf.keras.metrics.Mean(name='train_loss')
 
@@ -505,7 +505,7 @@ def main():
         sample_size += len(labels)
         if step == 0:
             z1 = model({"input_values": input_values}, output_hidden_states=True, training=False)
-            output = project_header(z1['hidden_states'])
+            output = project_header(z1['hidden_states'], training=False)
 
     project_header.load_weights(os.path.join(training_args.output_dir, 'project_header.h5'), by_name=True)
 
@@ -516,7 +516,7 @@ def main():
 
     for step, (input_values, labels) in enumerate(train_dataset):
         z1 = model({"input_values": input_values}, output_hidden_states=True, training=False)
-        output = project_header(z1['hidden_states'])
+        output = project_header(z1['hidden_states'], training=False)
         output = tf.nn.l2_normalize(output, axis=-1)
         target_features[current_samples:current_samples + len(labels)] = output
         target_labels[current_samples:current_samples + len(labels)] = labels
@@ -529,12 +529,9 @@ def main():
                           str(end - start)), )
 
     import scanpy as sc
-    import umap
-    import matplotlib.pyplot as plt
-    import matplotlib
+    # import matplotlib.pyplot as plt
 
     for ii in range(len(classes)):
-
         indexes = np.arange(len(target_labels))
         np.random.shuffle(indexes)
         class_name = classes[ii]
@@ -560,7 +557,7 @@ def main():
         sc.settings.verbosity = 3
         sc.settings.set_figure_params(dpi=300, facecolor='white', figsize=(5, 5), frameon=True)
         sc.logging.print_header()
-        plt.rcParams['axes.unicode_minus'] = False
+        # plt.rcParams['axes.unicode_minus'] = False
         # legend_loc='on data'
         sc.pl.umap(anndata, color=['Label'], legend_fontsize=8, show=False,
                    save='_{}_simcse.png'.format(class_name))
