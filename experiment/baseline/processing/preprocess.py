@@ -70,7 +70,7 @@ if __name__ == "__main__":
     }
     classes = ['SNR', 'AF', 'IAVB', 'LBBB', 'RBBB', 'PAC', 'PVC', 'STD', 'STE']
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-dir', type=str, default='data/CPSC', help='Directory to dataset')
+    parser.add_argument('--data-dir', type=str, default='data/baseline', help='Directory to dataset')
     args = parser.parse_args()
     data_dir = args.data_dir
     reference_csv = os.path.join(data_dir, 'reference.csv')

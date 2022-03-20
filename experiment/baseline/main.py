@@ -9,14 +9,14 @@ import numpy as np
 
 import sys
 sys.path.append("../../")
-from experiment.CPSC.data.dataset import ECGDataset
-from HiECG.network.resnet import resnet34
-from HiECG.utils.utils import cal_f1s, cal_aucs, split_data
+from experiment.baseline.data.dataset import ECGDataset
+from experiment.baseline.network.resnet import resnet34
+from experiment.baseline.utils.utils import cal_f1s, cal_aucs, split_data
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-dir', type=str, default='data/CPSC', help='Directory for data dir')
+    parser.add_argument('--data-dir', type=str, default='data/baseline', help='Directory for data dir')
     parser.add_argument('--leads', type=str, default='all', help='ECG leads to use')
     parser.add_argument('--seed', type=int, default=42, help='Seed to split data')
     parser.add_argument('--num-classes', type=int, default=int, help='Num of diagnostic classes')

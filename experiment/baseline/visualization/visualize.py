@@ -44,7 +44,7 @@ def plot_ecg2(leads, data, title):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--record-paths', type=str, default='../../data/CPSC/A0010.mat', help='Path to .mat file')
+    parser.add_argument('--record-paths', type=str, default='../../data/baseline/A0010.mat', help='Path to .mat file')
     args = parser.parse_args()
     recordpaths = glob(args.record_paths)
     for mat_file in tqdm(recordpaths):

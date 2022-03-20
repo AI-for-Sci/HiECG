@@ -6,7 +6,7 @@ import os
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-dir', type=str, default='data/CPSC', help='Directory to dataset')
+    parser.add_argument('--data-dir', type=str, default='data/baseline', help='Directory to dataset')
     args = parser.parse_args()
     
     classes = ['SNR', 'AF', 'IAVB', 'LBBB', 'RBBB', 'PAC', 'PVC', 'STD', 'STE']

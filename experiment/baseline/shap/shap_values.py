@@ -8,13 +8,13 @@ import shap
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 
-from HiECG.network.resnet import resnet34
-from HiECG.utils.utils import prepare_input
+from experiment.baseline.network.resnet import resnet34
+from experiment.baseline.utils.utils import prepare_input
 
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--data-dir', type=str, default='data/CPSC', help='Data directory')
+    parser.add_argument('--data-dir', type=str, default='data/baseline', help='Data directory')
     parser.add_argument('--leads', type=str, default='all')
     parser.add_argument('--seed', type=int, default=42, help='Seed to split data')
     parser.add_argument('--use-gpu', default=False, action='store_true', help='Use GPU')

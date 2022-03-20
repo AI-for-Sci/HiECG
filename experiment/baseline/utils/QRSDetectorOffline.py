@@ -328,7 +328,7 @@ class QRSDetectorOffline(object):
 
 
 if __name__ == "__main__":
-    ecg_data, _ = wfdb.rdsamp('data/CPSC/A0002')
+    ecg_data, _ = wfdb.rdsamp('data/baseline/A0002')
     qrs_detector = QRSDetectorOffline(ecg_data, frequency=500, verbose=False)
     rpeaks = qrs_detector.qrs_peaks_indices
     print(rpeaks)
