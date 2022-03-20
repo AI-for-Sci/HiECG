@@ -8,5 +8,4 @@ python ecg_classification_tf.py \
     --validation_file ./data/val \
     --per_device_train_batch_size 8 \
     --num_train_epochs 10 \
-    --learning_rate 1e-4 \
     --overwrite_output_dir
