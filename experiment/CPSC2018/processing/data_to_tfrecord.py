@@ -77,7 +77,7 @@ def _bytes_feature(value):
     return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value]))
 
 if __name__ == "__main__":
-    label_csv = "../../../data/CPSC/labels.csv"
+    label_csv = "../../../data/baseline/labels.csv"
     data_dir = "../../../data/CPSC/"
 
     # Labels
@@ -106,14 +106,16 @@ if __name__ == "__main__":
         nsteps, _ = ecg_data.shape
         y_data = row[classes].values
 
-        ecg_data = ecg_data[-15000:, use_leads]
-        x_data = np.zeros((15000, num_leads), dtype=np.float)  # 30 s, 500 Hz
-        x_data[-nsteps:, :] = ecg_data
+        x_data = ecg_data[-15000:, use_leads]
+        # x_data = np.zeros((15000, num_leads), dtype=np.float)  # 30 s, 500 Hz
+        # x_data[-nsteps:, :] = ecg_data
 
         def array_serialize(array):
             array = tf.io.serialize_tensor(array)
             return array
 
+
+        x_data = (x_data - x_data.mean()) / np.sqrt(x_data.var() + 1e-7)
         x_data = array_serialize(x_data)
         features = tf.train.Features(
             feature={
