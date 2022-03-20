@@ -359,7 +359,7 @@ def train_step(training_args, model, project_header, optimizer, input_values, la
     )
     with tf.GradientTape() as tape:
         z1 = model({"input_values": input_values}, output_hidden_states=True, training=True)
-        logits = project_header(z1['hidden_states'], training=True)
+        logits = project_header(z1['hidden_states'])
 
         loss = loss_fn(labels, logits)
         loss = tf.nn.compute_average_loss(loss, global_batch_size=training_args.per_device_train_batch_size)
@@ -523,7 +523,7 @@ def main():
         )
 
         classes = ['SNR', 'AF', 'IAVB', 'LBBB', 'RBBB', 'PAC', 'PVC', 'STD', 'STE']
-        project_header = ClassificationHeader(pooling='last-avg', hidden_size=128, num_classes=len(classes))
+        project_header = ClassificationHeader(pooling='last-avg', hidden_size=256, num_classes=len(classes))
 
         # model.compile(optimizer=optimizer, loss={"loss": dummy_loss})
         # endregion
@@ -543,7 +543,6 @@ def main():
         for epoch in range(int(training_args.num_train_epochs)):
             train_loss.reset_states()
             start = time.process_time()
-            total_loss = 0.0
 
             train_loss.reset_states()
             train_accuracy.reset_states()
